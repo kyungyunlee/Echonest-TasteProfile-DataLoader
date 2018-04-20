@@ -67,7 +67,7 @@ def calculate_sparsity(user_song_sparse):
 
 
 if __name__=='__main__':
-    base_dir = '/media/bach4/kylee/Deep-content-data/'
+    base_dir = '/media/bach4/kylee/Deep-content-data/' # change base dir to where the txt file is saved  
     num_subset_users = args.users
     num_subset_songs = args.songs
     
