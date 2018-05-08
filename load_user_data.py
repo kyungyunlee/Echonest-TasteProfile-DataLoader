@@ -36,6 +36,7 @@ def create_sparse_matrix(csvfile, num_subset_songs, num_subset_users):
     cols = df['user'].astype('category', categories=users)
     sparse_matrix = sparse.csr_matrix((plays,(rows.cat.codes.copy(), cols.cat.codes.copy())), shape=(len(songs), len(users)))
     print ("Sparse matrix shape : ", sparse_matrix.shape)
+    
 
     # sort by item popularity
     itemwise_sum = sparse_matrix.sum(axis=1).A.T[0]
@@ -43,10 +44,10 @@ def create_sparse_matrix(csvfile, num_subset_songs, num_subset_users):
     idx = np.argsort(itemwise_sum)[::-1]
 
     sorted_songs = list(np.array(songs)[idx])
-    sorted_sparse_matrix = sparse_matrix[idx]
+    sorted_sparse_matrix = sparse_matrix[idx, :]
 
     # subset 
-    subset_matrix = sorte_sparse_matrix[:num_subset_songs][:, :num_subset_users]
+    subset_matrix = sorted_sparse_matrix[:num_subset_songs, :num_subset_users]
     subset_songs = sorted_songs[:num_subset_songs]
     subset_users = users[:num_subset_users]
 
@@ -75,15 +76,16 @@ if __name__=='__main__':
     taste_profile = os.path.join(base_dir, 'train_triplets.txt')
     taste_profile_csv = txt_to_csv(taste_profile)
     
-    song_user_matrix, songs, users = create_sparse_matrix(taste_profile_csv, num_subset_users, num_subset_songs)
+    song_user_matrix, songs, users = create_sparse_matrix(taste_profile_csv, num_subset_songs, num_subset_users)
 
     # save outputs 
-    sparse.save_npz('song_user_matrix.npz', song_user_matrix)
-    np.save('subset_songs.npy', songs)
-    np.save('subset_users.npy', users)
+    filename_tag = '_' + str(args.users) + '_'+ str(args.songs)
+    sparse.save_npz('song_user_matrix' + filename_tag +  '.npz', song_user_matrix)
+    np.save('subset_songs' + filename_tag + '.npy', songs)
+    np.save('subset_users' + filename_tag + '.npy', users)
 
     # calculate sparsity 
-    calculate_sparsity(user_song_matrix)
+    calculate_sparsity(song_user_matrix)
 
 
 
