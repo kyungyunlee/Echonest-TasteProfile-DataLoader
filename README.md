@@ -12,11 +12,11 @@ Resulting matrix is song x user matrix with play count as the data.
 * If all data is used  
 `python load_user_data.py`
 * After running the script file, three files will be created in the same directory as the script file :  
-	* `song_user_matrix.npz` : sparse song x user matrix
-	* `subset_songs.npy` : numpy array of songs in the sparse matrix (order preserved)
-	* `subset_users.npy` : numpy array of users in the sparset matrix (order preserved)
+	* `song_user_matrix_20000_10000.npz` : sparse song x user matrix
+	* `subset_songs_20000_10000.npy` : numpy array of songs in the sparse matrix (order preserved)
+	* `subset_users_20000_10000.npy%` : numpy array of users in the sparset matrix (order preserved)
 * To load user matrix  
-` song_user_matrix = scipy.sparse.load_npz('song_user_matrix.npz') `  
+` song_user_matrix = scipy.sparse.load_npz('song_user_matrix_20000_10000.npz') `  
 
 ### Echo Nest Song ID to MSD Track ID 
 The user data is given with the Echo Nest song id.  
